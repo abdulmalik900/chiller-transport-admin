@@ -160,11 +160,12 @@ const config = {
     "db"
   ],
   "activeProvider": "mongodb",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "mongodb+srv://malikkhan12:nK3d8rkz7MrDAAjK@cluster0.wchrhod.mongodb.net/data?retryWrites=true&w=majority&appName=Cluster0"
+        "value": null
       }
     }
   },

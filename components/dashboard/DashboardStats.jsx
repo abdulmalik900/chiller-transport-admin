@@ -19,15 +19,24 @@ export default function DashboardStats() {
         setIsLoading(true);
         setError(null);
         
-        // Fetch data from API endpoint
+        // Fetch data from API endpoint with better error handling
         const response = await fetch('/api/dashboard/stats');
         
+        // Check if response is not OK
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || errorData.error || 'Failed to load dashboard data');
+          throw new Error(`Error loading dashboard data (Status: ${response.status})`);
         }
         
-        const statsData = await response.json();
+        // Parse JSON with error handling
+        let statsData;
+        try {
+          statsData = await response.json();
+        } catch (parseError) {
+          console.error("Failed to parse JSON response:", parseError);
+          throw new Error("Invalid data format from server. Please try again later.");
+        }
+        
+        // Set the stats
         setStats(statsData);
       } catch (err) {
         console.error("Failed to fetch dashboard stats:", err);
@@ -59,17 +68,17 @@ export default function DashboardStats() {
             <CircleStackIcon className="h-6 w-6 text-red-500" />
           </div>
           <div className="ml-3">
-            <h3 className="text-lg font-medium text-red-800">Data Not Available</h3>
+            <h3 className="text-lg font-medium text-red-800">Error Loading Data</h3>
             <div className="mt-2 text-red-700">
               <p>{error}</p>
-              <p className="mt-2">The database might not be properly configured or connected.</p>
+              <p className="mt-2">Failed to load authors. Please try refreshing the page.</p>
             </div>
             <div className="mt-4">
               <button 
                 onClick={() => window.location.reload()}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150"
               >
-                Retry
+                Refresh Page
               </button>
             </div>
           </div>

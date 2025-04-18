@@ -9,6 +9,16 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [...compat.extends("next/core-web-vitals")];
+// Using only the JS-focused Next.js rules without TypeScript
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals"),
+  {
+    files: ["**/*.js", "**/*.mjs"],
+    languageOptions: {
+      sourceType: "module",
+      ecmaVersion: "latest",
+    }
+  }
+];
 
 export default eslintConfig;

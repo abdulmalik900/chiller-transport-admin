@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/PrismaInstance';
+import { prisma } from '@/lib/prisma';
 
 // GET a post by slug
 export async function GET(request, context) {

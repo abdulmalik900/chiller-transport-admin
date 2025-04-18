@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/PrismaInstance';
+import { prisma } from '@/lib/prisma';
 
-// GET all authors
+/**
+ * GET all authors
+ * @param {Request} request
+ * @returns {Promise<NextResponse>}
+ */
 export async function GET(request) {
   try {
-    let authors = await prisma.author.findMany({
+    const authors = await prisma.author.findMany({
       include: {
         posts: {
           select: {
@@ -17,13 +21,18 @@ export async function GET(request) {
       }
     });
     
-    // Add post count for convenience
-    authors = authors.map(author => ({
-      ...author,
-      postCount: author.posts.length
+    const transformedAuthors = authors.map(author => ({
+      id: author.id,
+      name: author.name,
+      email: author.email,
+      bio: author.bio,
+      avatarUrl: author.avatarUrl,
+      postCount: author.posts.length,
+      createdAt: author.createdAt,
+      updatedAt: author.updatedAt
     }));
     
-    return NextResponse.json(authors);
+    return NextResponse.json(transformedAuthors);
   } catch (error) {
     console.error('Error fetching authors:', error);
     return NextResponse.json(
@@ -33,30 +42,40 @@ export async function GET(request) {
   }
 }
 
-// POST - create a new author
+/**
+ * POST - create a new author
+ * @param {Request} request
+ * @returns {Promise<NextResponse>}
+ */
 export async function POST(request) {
   try {
     const data = await request.json();
     
-    // Add validation here
-    if (!data.name || !data.email) {
+    if (!data.name?.trim() || !data.email?.trim()) {
       return NextResponse.json(
-        { error: 'Name and email are required' },
+        { error: 'Name and email are required fields' },
         { status: 400 }
       );
     }
     
     const author = await prisma.author.create({
       data: {
-        name: data.name,
-        email: data.email,
-        bio: data.bio || '',
-        avatarUrl: data.avatarUrl || data.image || null
+        name: data.name.trim(),
+        email: data.email.trim(),
+        bio: data.bio?.trim() || '',
+        avatarUrl: data.avatarUrl || null
       }
     });
     
     return NextResponse.json(author, { status: 201 });
   } catch (error) {
+    if (error.code === 'P2002') {
+      return NextResponse.json(
+        { error: 'An author with this email already exists' },
+        { status: 409 }
+      );
+    }
+
     console.error('Error creating author:', error);
     return NextResponse.json(
       { error: 'Failed to create author' },
@@ -65,14 +84,18 @@ export async function POST(request) {
   }
 }
 
-// DELETE - delete multiple authors
+/**
+ * DELETE - delete multiple authors
+ * @param {Request} request
+ * @returns {Promise<NextResponse>}
+ */
 export async function DELETE(request) {
   try {
     const { ids } = await request.json();
     
-    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+    if (!ids?.length || !Array.isArray(ids)) {
       return NextResponse.json(
-        { error: 'Author IDs are required' },
+        { error: 'Valid author IDs array is required' },
         { status: 400 }
       );
     }
@@ -95,7 +118,7 @@ export async function DELETE(request) {
           error: 'Cannot delete authors with posts',
           authors: authorsWithPosts 
         },
-        { status: 400 }
+        { status: 409 }
       );
     }
     
@@ -106,6 +129,7 @@ export async function DELETE(request) {
     });
     
     return NextResponse.json({
+      success: true,
       count: deletedAuthors.count,
       message: `${deletedAuthors.count} authors deleted successfully`
     });

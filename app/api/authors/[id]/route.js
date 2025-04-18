@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/PrismaInstance';
+import { prisma } from '@/lib/prisma';
 
 // GET an author by ID
 export async function GET(request, context) {

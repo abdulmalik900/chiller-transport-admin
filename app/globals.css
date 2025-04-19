@@ -24,3 +24,161 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Fix for ReactQuill toolbar visibility on paste */
+.ql-toolbar.ql-snow {
+  position: sticky !important;
+  top: 0;
+  z-index: 100;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+  display: flex !important;
+  flex-wrap: wrap;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: none !important;
+  padding: 8px !important;
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+}
+
+/* Ensure toolbar items stay visible */
+.ql-toolbar.ql-snow .ql-formats {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin-right: 8px !important;
+}
+
+/* Rich text editor wrapper improvements */
+.rich-text-editor-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+/* Prevent toolbar from disappearing during paste */
+.react-quill-editor {
+  overflow: visible !important;
+}
+
+.react-quill-editor .ql-container {
+  border-top: none !important;
+  min-height: 200px;
+  position: relative;
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+}
+
+/* Prevent editor from blinking during paste */
+.ql-editor {
+  transition: none !important;
+  padding: 16px !important;
+}
+
+/* Ensure dropdown menu visibility */
+.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 101 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Ensuring toolbar buttons are clickable */
+.ql-toolbar.ql-snow button {
+  pointer-events: auto !important;
+  width: 28px !important;
+  height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 4px !important;
+}
+
+/* Enhancing toolbar buttons with better hover states */
+.ql-toolbar.ql-snow button:hover {
+  background-color: #f0f9ff !important;
+}
+
+/* Better color for active toolbar buttons */
+.ql-toolbar.ql-snow .ql-active {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+}
+
+/* Make sure toolbar is visible after pasting */
+.ql-clipboard {
+  position: absolute !important;
+  left: -100000px !important;
+  height: 1px !important;
+  overflow-y: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Improve dropdown appearance */
+.ql-snow .ql-picker {
+  border-radius: 4px !important;
+}
+
+.ql-snow .ql-picker:hover {
+  background-color: #f0f9ff !important;
+}
+
+/* Better styling for links in the editor */
+.ql-editor a {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+}
+
+/* Better styling for code blocks */
+.ql-editor pre.ql-syntax {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+  border-radius: 6px !important;
+  padding: 16px !important;
+  font-family: monospace !important;
+  font-size: 14px !important;
+  overflow-x: auto !important;
+}
+
+/* Better styling for blockquotes */
+.ql-editor blockquote {
+  border-left: 4px solid #3b82f6 !important;
+  padding-left: 16px !important;
+  color: #4b5563 !important;
+  font-style: italic !important;
+}
+
+/* Improve list styling */
+.ql-editor ul, .ql-editor ol {
+  padding-left: 24px !important;
+}
+
+.ql-editor li {
+  margin-bottom: 6px !important;
+}
+
+/* Better image handling */
+.ql-editor img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 12px 0 !important;
+  border-radius: 8px !important;
+}
+
+/* Focused editor state */
+.rich-text-editor-wrapper.focused .ql-toolbar.ql-snow,
+.rich-text-editor-wrapper.focused .ql-container.ql-snow {
+  border-color: #3b82f6 !important;
+}
+
+/* Placeholder styling */
+.ql-editor.ql-blank::before {
+  font-style: normal !important;
+  color: #9ca3af !important;
+  font-size: 16px !important;
+}

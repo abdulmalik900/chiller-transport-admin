@@ -18,22 +18,10 @@ import {
   XMarkIcon,
   PowerIcon
 } from '@heroicons/react/24/outline';
-import dynamic from 'next/dynamic';
 import { useForm } from 'react-hook-form';
 import { createPost, uploadImage, getAllAuthors } from '@/app/services/apiService';
 import AuthorSelectInput from '@/components/AuthorSelectInput';
-
-// Import React Quill dynamically to avoid SSR issues
-const ReactQuill = dynamic(
-  async () => {
-    const { default: RQ } = await import('react-quill-new');
-    return RQ;
-  },
-  { ssr: false }
-);
-
-// Import Quill CSS
-import 'react-quill-new/dist/quill.snow.css';
+import RichTextEditor from '@/components/RichTextEditor';
 
 // Rich text editor toolbar options
 const toolbarOptions = [
@@ -267,8 +255,7 @@ export default function CreatePostPage() {
                   Content
                 </label>
                 <div className="border border-gray-300 rounded-lg overflow-hidden">
-                  <ReactQuill
-                    theme="snow"
+                  <RichTextEditor
                     value={content}
                     onChange={setContent}
                     modules={{ toolbar: toolbarOptions }}

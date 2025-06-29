@@ -42,6 +42,7 @@ export async function POST(request) {
         title: data.title,
         slug: data.slug,
         content: data.content,
+        metadesc: data.metadesc || '',
         img: data.img || '',
         tags: data.tags || [],
         published: data.published || false,

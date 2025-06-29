@@ -74,6 +74,7 @@ export async function PUT(request, context) {
         title: data.title,
         slug: data.slug,
         content: data.content,
+        metadesc: data.metadesc,
         published: data.published,
         authorId: data.authorId,
         img: data.img,

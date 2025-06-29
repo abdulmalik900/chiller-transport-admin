@@ -69,6 +69,7 @@ export default function EditPostPage({ params }) {
         // Set form values
         reset({
           title: postData.title,
+          metadesc: postData.metadesc || '',
           authorId: postData.authorId,
           img: postData.img || '',
           published: postData.published !== undefined ? postData.published : true
@@ -250,6 +251,31 @@ export default function EditPostPage({ params }) {
                     {errors.title.message}
                   </p>
                 )}
+              </div>
+              
+              <div className="mb-6">
+                <label htmlFor="metadesc" className="inline-flex items-center text-base font-medium text-gray-700 mb-2">
+                  <span className="bg-blue-50 p-1.5 rounded-md text-blue-600 mr-2">
+                    <InformationCircleIcon className="h-5 w-5" />
+                  </span>
+                  Meta Description
+                </label>
+                <textarea
+                  id="metadesc"
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
+                  placeholder="Enter a brief description for SEO (160-180 characters recommended)..."
+                  maxLength={190}
+                  {...register('metadesc')}
+                />
+                <div className="mt-1 flex justify-between items-center">
+                  <p className="text-sm text-gray-500">
+                    This description will appear in search engine results
+                  </p>
+                  <span className="text-sm text-gray-400">
+                    {watch('metadesc')?.length || 0}/160
+                  </span>
+                </div>
               </div>
               
               <div>

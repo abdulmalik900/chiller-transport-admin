@@ -34,6 +34,7 @@ model BlogPost {
   slug      String   @unique  
   img       String   
   content   String
+  metadesc  String?
   authorId  String   @db.ObjectId
   author    Author   @relation(fields: [authorId], references: [id])
   tags      String[]
